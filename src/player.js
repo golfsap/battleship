@@ -1,8 +1,11 @@
+import Ship from "./ship";
 import Gameboard from "./gameboard";
 
 export default function Player(type) {
   const playerType = type;
   const playerBoard = Gameboard();
+  const playerShips = [Ship(5), Ship(4), Ship(3), Ship(3), Ship(2)];
+
   let availableSquares = [];
 
   const initializeAvailableSquares = (opponentBoard) => {
@@ -38,6 +41,7 @@ export default function Player(type) {
   return {
     getType: () => playerType,
     getBoard: () => playerBoard,
+    getShips: () => playerShips,
     attack,
   };
 }
