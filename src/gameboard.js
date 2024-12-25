@@ -56,9 +56,17 @@ export default function Gameboard() {
     return false;
   };
 
+  const allShipsSunk = () => {
+    return board
+      .flat()
+      .filter((square) => square.shipId !== null)
+      .every((square) => square.isHit);
+  };
+
   return {
     getBoard,
     placeShip,
     receiveAttack,
+    allShipsSunk,
   };
 }

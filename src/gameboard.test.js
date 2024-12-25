@@ -82,3 +82,30 @@ test("attack misses ship", () => {
     missed: true,
   });
 });
+
+test("all ships sunk", () => {
+  const ship = Ship(2);
+  const board = Gameboard();
+  board.placeShip(ship, [2, 3], "horizontal");
+  board.receiveAttack(2, 3);
+  board.receiveAttack(2, 4);
+
+  expect(ship.isSunk()).toBeTruthy();
+  expect(board.allShipsSunk()).toBeTruthy();
+});
+
+test("not all ships are sunk", () => {
+  const ship1 = Ship(3);
+  const ship2 = Ship(2);
+
+  const board = Gameboard();
+
+  board.placeShip(ship1, [0, 0], "horizontal");
+  board.placeShip(ship2, [4, 4], "vertical");
+  board.receiveAttack(0, 0);
+  board.receiveAttack(0, 1);
+
+  expect(ship1.isSunk()).toBeFalsy();
+  expect(ship2.isSunk()).toBeFalsy();
+  expect(board.allShipsSunk()).toBeFalsy();
+});
