@@ -1,31 +1,64 @@
 export default function Gameboard() {
   // Create a 10x10 game board
-  const board = Array.from({ length: 10 }, () => Array(10).fill(0));
+  const board = Array.from({ length: 10 }, () =>
+    Array(10)
+      .fill(null)
+      .map(() => ({ shipId: null, isHit: false, missed: false }))
+  );
 
   const getBoard = () => board;
 
-  const placeShip = (ship, head, direction = "horizontal") => {
+  const canPlaceShip = (ship, head, direction) => {
     const shipLength = ship.getLength();
 
-    // Check if ship can be placed on the board
     if (direction === "horizontal") {
       if (head[1] + shipLength > 10) return false;
 
       for (let i = 0; i < shipLength; i++) {
-        board[head[0]][head[1] + i] = 1;
+        if (board[head[0]][head[1] + i].shipId) return false;
       }
     } else if (direction === "vertical") {
       if (head[0] + shipLength > 10) return false;
 
       for (let i = 0; i < shipLength; i++) {
-        board[head[0] + i][head[1]] = 1;
+        if (board[head[0] + i][head[1]].shipId) return false;
+      }
+    }
+
+    return true;
+  };
+
+  const placeShip = (ship, head, direction = "horizontal") => {
+    if (!canPlaceShip(ship, head, direction)) return false;
+
+    const shipLength = ship.getLength();
+
+    for (let i = 0; i < shipLength; i++) {
+      if (direction === "horizontal") {
+        board[head[0]][head[1] + i].shipId = ship;
+      } else {
+        board[head[0] + i][head[1]].shipId = ship;
       }
     }
     return true;
   };
 
+  const receiveAttack = (row, col) => {
+    const attackedSquare = board[row][col];
+
+    if (attackedSquare.shipId) {
+      attackedSquare.isHit = true;
+      attackedSquare.shipId.hit();
+      return true;
+    }
+
+    attackedSquare.missed = true;
+    return false;
+  };
+
   return {
     getBoard,
     placeShip,
+    receiveAttack,
   };
 }
