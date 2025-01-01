@@ -6,32 +6,26 @@ export default function Player(type) {
   const playerBoard = Gameboard();
   const playerShips = [Ship(5), Ship(4), Ship(3), Ship(3), Ship(2)];
 
-  let availableSquares = [];
+  let availableSquares = Array.from({ length: 10 }, (_, row) =>
+    Array.from({ length: 10 }, (_, col) => [row, col])
+  ).flat();
 
-  const initializeAvailableSquares = (opponentBoard) => {
-    availableSquares = [];
-    for (let row = 0; row < 10; row++) {
-      for (let col = 0; col < 10; col++) {
-        const square = opponentBoard[row][col];
-        if (!square.isHit && !square.missed) {
-          availableSquares.push([row, col]);
-        }
-      }
-    }
+  const resetAvailableSquares = () => {
+    availableSquares = Array.from({ length: 10 }, (_, row) =>
+      Array.from({ length: 10 }, (_, col) => [row, col])
+    ).flat();
   };
 
   const attack = (opponent, row, col) => {
     if (playerType === "computer") {
-      [row, col] = generateRandomSquare(opponent.getBoard().getBoard());
+      [row, col] = generateRandomSquare();
     }
     return opponent.getBoard().receiveAttack(row, col);
   };
 
-  const generateRandomSquare = (opponentBoard) => {
+  const generateRandomSquare = () => {
     // Choose a random attack coordinate which hasn't been attacked yet
-    if (availableSquares.length === 0) {
-      initializeAvailableSquares(opponentBoard);
-    }
+    if (availableSquares.length === 0) resetAvailableSquares();
     const randomIndex = Math.floor(Math.random() * availableSquares.length);
     const [row, col] = availableSquares[randomIndex];
     availableSquares.splice(randomIndex, 1);

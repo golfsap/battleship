@@ -7,8 +7,21 @@
 
 body {
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
+}
+
+h1 {
+  padding-top: 20px;
+}
+
+#current-player {
+  padding: 10px;
+}
+
+#boards {
+  display: flex;
 }
 
 .board-container {

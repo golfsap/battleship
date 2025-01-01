@@ -44,17 +44,22 @@ export default function Gameboard() {
   };
 
   const receiveAttack = (row, col) => {
+    if (!isValidCoordinate(row, col)) return false;
+
     const attackedSquare = board[row][col];
+    if (attackedSquare.isHit || attackedSquare.missed) return false;
 
     if (attackedSquare.shipId) {
       attackedSquare.isHit = true;
       attackedSquare.shipId.hit();
-      return true;
+    } else {
+      attackedSquare.missed = true;
     }
-
-    attackedSquare.missed = true;
-    return false;
+    return true;
   };
+
+  const isValidCoordinate = (row, col) =>
+    row >= 0 && row < 10 && col >= 0 && col < 10;
 
   const allShipsSunk = () => {
     return board

@@ -22,6 +22,5 @@ test("real player attacks opponent", () => {
 test("computer attacks opponent", () => {
   const player1 = Player("real");
   const player2 = Player("computer");
-  // since no ships were initially placed, attack should return false for missed attack
-  expect(player2.attack(player1)).toBeFalsy();
+  expect(player2.attack(player1)).toBeTruthy();
 });

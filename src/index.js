@@ -4,11 +4,18 @@ import Player from "./player";
 const display = (function ScreenController() {
   const board1Container = document.getElementById("board-1-container");
   const board2Container = document.getElementById("board-2-container");
+  const currentPlayerDisplay = document.getElementById("current-player");
 
   const player1 = Player("real");
   const player2 = Player("computer");
 
   let currentPlayer = player1;
+
+  const switchPlayer = () => {
+    currentPlayer = currentPlayer === player1 ? player2 : player1;
+    currentPlayerDisplay.innerHTML = `${currentPlayer.getType()}'s turn`;
+    console.log(currentPlayer.getType());
+  };
 
   const newGame = () => {
     // Place ships for player1
@@ -38,6 +45,15 @@ const display = (function ScreenController() {
     board1Container.innerHTML = "";
     board2Container.innerHTML = "";
 
+    const board1Name = document.createElement("div");
+    board1Name.textContent = `Player's board`;
+    board1Name.classList.add("board-name");
+    board1Container.appendChild(board1Name);
+    const board2Name = document.createElement("div");
+    board2Name.textContent = `Computer's board`;
+    board2Name.classList.add("board-name");
+    board2Container.appendChild(board2Name);
+
     const board1 = player1.getBoard().getBoard();
     const board2 = player2.getBoard().getBoard();
 
@@ -63,11 +79,33 @@ const display = (function ScreenController() {
         if (board[row][col].missed) {
           square.classList.add("missed");
         }
-        square.textContent = board[row][col];
+        square.dataset.row = row;
+        square.dataset.col = col;
+        square.addEventListener("click", (e) => {
+          const clickedRow = e.target.dataset.row;
+          const clickedCol = e.target.dataset.col;
+          const opp = currentPlayer === player1 ? player2 : player1;
+          console.log(
+            `${currentPlayer.getType()} attacked: Row ${clickedRow} Col ${clickedCol}`
+          );
+          if (currentPlayer.attack(opp, clickedRow, clickedCol)) {
+            if (opp.getBoard().allShipsSunk()) {
+              // Gameover message
+              endgame();
+            } else {
+              switchPlayer();
+              render();
+            }
+          }
+        });
         boardDiv.appendChild(square);
       }
     }
     return boardDiv;
+  }
+
+  function endgame() {
+    alert(`${currentPlayer.getType()} has won!`);
   }
 
   newGame();

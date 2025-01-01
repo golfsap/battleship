@@ -74,7 +74,7 @@ test("attack misses ship", () => {
   const board = Gameboard();
   board.placeShip(ship, [2, 3], "horizontal");
 
-  expect(board.receiveAttack(1, 1)).toBeFalsy();
+  expect(board.receiveAttack(1, 1)).toBeTruthy();
   expect(ship.getLength()).toEqual(2);
   expect(board.getBoard()[1][1]).toEqual({
     shipId: null,
