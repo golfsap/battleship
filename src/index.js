@@ -14,7 +14,21 @@ const display = (function ScreenController() {
   const switchPlayer = () => {
     currentPlayer = currentPlayer === player1 ? player2 : player1;
     currentPlayerDisplay.innerHTML = `${currentPlayer.getType()}'s turn`;
-    console.log(currentPlayer.getType());
+
+    // Handle if computer's turn
+    if (currentPlayer.getType() === "computer") {
+      setTimeout(() => {
+        const opp = currentPlayer === player1 ? player2 : player1;
+        if (currentPlayer.attack(opp, null, null)) {
+          render();
+          if (opp.getBoard().allShipsSunk()) {
+            endgame();
+          } else {
+            switchPlayer();
+          }
+        }
+      }, 1000);
+    }
   };
 
   const newGame = () => {
@@ -81,27 +95,28 @@ const display = (function ScreenController() {
         }
         square.dataset.row = row;
         square.dataset.col = col;
-        square.addEventListener("click", (e) => {
-          const clickedRow = e.target.dataset.row;
-          const clickedCol = e.target.dataset.col;
-          const opp = currentPlayer === player1 ? player2 : player1;
-          console.log(
-            `${currentPlayer.getType()} attacked: Row ${clickedRow} Col ${clickedCol}`
-          );
-          if (currentPlayer.attack(opp, clickedRow, clickedCol)) {
-            if (opp.getBoard().allShipsSunk()) {
-              // Gameover message
-              endgame();
-            } else {
-              switchPlayer();
-              render();
-            }
-          }
-        });
+        square.addEventListener("click", (e) => playTurn(e));
         boardDiv.appendChild(square);
       }
     }
     return boardDiv;
+  }
+
+  function playTurn(e) {
+    const clickedRow = e.target.dataset.row;
+    const clickedCol = e.target.dataset.col;
+    const opp = currentPlayer === player1 ? player2 : player1;
+    console.log(
+      `${currentPlayer.getType()} attacked: Row ${clickedRow} Col ${clickedCol}`
+    );
+    if (currentPlayer.attack(opp, clickedRow, clickedCol)) {
+      render();
+      if (opp.getBoard().allShipsSunk()) {
+        endgame();
+      } else {
+        switchPlayer();
+      }
+    }
   }
 
   function endgame() {
