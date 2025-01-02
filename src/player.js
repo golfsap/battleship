@@ -32,10 +32,21 @@ export default function Player(type) {
     return [row, col];
   };
 
+  const getSunkShips = () => {
+    const sunkShips = [];
+    for (const ship of playerShips) {
+      if (ship.isSunk()) {
+        sunkShips.push(ship);
+      }
+    }
+    return sunkShips;
+  };
+
   return {
     getType: () => playerType,
     getBoard: () => playerBoard,
     getShips: () => playerShips,
     attack,
+    getSunkShips,
   };
 }

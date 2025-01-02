@@ -40,6 +40,14 @@ h1 {
   border: 1px solid black;
 }
 
+#board-2-container .ship {
+  background-color: transparent;
+}
+
+#board-2-container .ship.hit {
+  background-color: red;
+}
+
 .square {
   border: 1px solid gray;
 }

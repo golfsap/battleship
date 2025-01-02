@@ -19,7 +19,7 @@ const display = (function ScreenController() {
     if (currentPlayer.getType() === "computer") {
       setTimeout(() => {
         const opp = currentPlayer === player1 ? player2 : player1;
-        if (currentPlayer.attack(opp, null, null)) {
+        if (currentPlayer.attack(opp)) {
           render();
           if (opp.getBoard().allShipsSunk()) {
             endgame();
@@ -111,6 +111,14 @@ const display = (function ScreenController() {
     );
     if (currentPlayer.attack(opp, clickedRow, clickedCol)) {
       render();
+      const sunkenShips = opp.getSunkShips();
+      if (sunkenShips.length > 0) {
+        for (const ship of sunkenShips) {
+          console.log(
+            `${currentPlayer.getType()}'s ${ship.getName()} has been sunk!`
+          );
+        }
+      }
       if (opp.getBoard().allShipsSunk()) {
         endgame();
       } else {
