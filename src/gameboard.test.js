@@ -66,7 +66,7 @@ test("attack hits ship", () => {
   board.placeShip(ship, [0, 0], "horizontal");
 
   expect(board.receiveAttack(0, 1)).toBeTruthy();
-  expect(ship.getLength()).toEqual(3);
+  expect(ship.getHits()).toEqual(1);
 });
 
 test("attack misses ship", () => {

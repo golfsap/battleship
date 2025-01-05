@@ -3,7 +3,7 @@ import Player from "./player";
 test("create real player", () => {
   const player = Player("real");
 
-  expect(player.getType()).toEqual("real");
+  expect(player.getName()).toEqual("real");
 });
 
 test("real player attacks opponent", () => {

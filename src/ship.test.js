@@ -1,19 +1,34 @@
-import Ship from "./ship";
+import { createShips } from "./ship";
 
-const ship = Ship(4);
+const playerShips = createShips();
+
 test("length of ship", () => {
-  ship.hit();
-  expect(ship.getLength()).toBe(3);
+  expect(playerShips[0].getLength()).toBe(5);
+  expect(playerShips[1].getLength()).toBe(4);
+  expect(playerShips[2].getLength()).toBe(3);
+  expect(playerShips[3].getLength()).toBe(3);
+  expect(playerShips[4].getLength()).toBe(2);
 });
 
 test("if ship is sunk", () => {
-  ship.hit();
-  ship.hit();
-  ship.hit();
-  expect(ship.isSunk()).toBe(true);
+  playerShips[0].hit();
+  playerShips[0].hit();
+  playerShips[0].hit();
+  playerShips[0].hit();
+  // playerShips[0].hit();
+  expect(playerShips[0].isSunk()).toBe(false);
 });
 
-test("hit already sunken ship", () => {
-  expect(ship.hit()).toBeNull();
-  expect(ship.isSunk()).toBe(true);
+test("hits count of ship", () => {
+  playerShips[0].hit();
+  expect(playerShips[0].getHits()).toBe(5);
+  expect(playerShips[0].isSunk()).toBe(true);
+});
+
+test("name of ship", () => {
+  expect(playerShips[0].getName()).toBe("Carrier");
+  expect(playerShips[1].getName()).toBe("Battleship");
+  expect(playerShips[2].getName()).toBe("Cruiser");
+  expect(playerShips[3].getName()).toBe("Submarine");
+  expect(playerShips[4].getName()).toBe("Destroyer");
 });

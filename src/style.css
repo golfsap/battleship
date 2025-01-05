@@ -63,3 +63,18 @@ h1 {
 .missed {
   background-color: gray;
 }
+
+#sunken-ships-container {
+  border: 1px solid black;
+  display: grid;
+  grid-template-columns: 500px 500px;
+  gap: 30px;
+  /* margin: 20px; */
+}
+
+.sunk-ships {
+  /* padding: 10px; */
+  text-align: center;
+  /* text-transform: capitalize; */
+  border: 1px solid green;
+}

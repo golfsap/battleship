@@ -5,18 +5,19 @@ const display = (function ScreenController() {
   const board1Container = document.getElementById("board-1-container");
   const board2Container = document.getElementById("board-2-container");
   const currentPlayerDisplay = document.getElementById("current-player");
+  const sunkShipsContainer = document.getElementById("sunken-ships-container");
 
-  const player1 = Player("real");
+  const player1 = Player("player");
   const player2 = Player("computer");
 
   let currentPlayer = player1;
 
   const switchPlayer = () => {
     currentPlayer = currentPlayer === player1 ? player2 : player1;
-    currentPlayerDisplay.innerHTML = `${currentPlayer.getType()}'s turn`;
+    currentPlayerDisplay.innerHTML = `${currentPlayer.getName()}'s turn`;
 
     // Handle if computer's turn
-    if (currentPlayer.getType() === "computer") {
+    if (currentPlayer.getName() === "computer") {
       setTimeout(() => {
         const opp = currentPlayer === player1 ? player2 : player1;
         if (currentPlayer.attack(opp)) {
@@ -49,15 +50,12 @@ const display = (function ScreenController() {
     gameboard2.placeShip(player2Ships[2], [0, 7], "horizontal");
     gameboard2.placeShip(player2Ships[3], [9, 7], "horizontal");
     gameboard2.placeShip(player2Ships[4], [0, 0], "horizontal");
-
-    // test: attack squares
-    player1.attack(player2, 0, 0);
-    player2.attack(player1);
   };
 
   function render() {
     board1Container.innerHTML = "";
     board2Container.innerHTML = "";
+    sunkShipsContainer.innerHTML = "";
 
     const board1Name = document.createElement("div");
     board1Name.textContent = `Player's board`;
@@ -73,6 +71,9 @@ const display = (function ScreenController() {
 
     board1Container.appendChild(renderBoard(board1));
     board2Container.appendChild(renderBoard(board2));
+
+    sunkShipsContainer.appendChild(renderSunkShips(player1));
+    sunkShipsContainer.appendChild(renderSunkShips(player2));
   }
 
   function renderBoard(board) {
@@ -102,23 +103,28 @@ const display = (function ScreenController() {
     return boardDiv;
   }
 
+  function renderSunkShips(player) {
+    const sunkShipsDiv = document.createElement("div");
+    sunkShipsDiv.classList.add("sunk-ships");
+
+    const sunkenShips = player.getSunkShips();
+    if (sunkenShips.length > 0) {
+      for (const ship of sunkenShips) {
+        sunkShipsDiv.innerHTML += `${player.getName()[0].toUpperCase() + player.getName().slice(1)}'s ${ship.getName()} has been sunk!<br>`;
+      }
+    }
+    return sunkShipsDiv;
+  }
+
   function playTurn(e) {
     const clickedRow = e.target.dataset.row;
     const clickedCol = e.target.dataset.col;
     const opp = currentPlayer === player1 ? player2 : player1;
     console.log(
-      `${currentPlayer.getType()} attacked: Row ${clickedRow} Col ${clickedCol}`
+      `${currentPlayer.getName()} attacked: Row ${clickedRow} Col ${clickedCol}`
     );
     if (currentPlayer.attack(opp, clickedRow, clickedCol)) {
       render();
-      const sunkenShips = opp.getSunkShips();
-      if (sunkenShips.length > 0) {
-        for (const ship of sunkenShips) {
-          console.log(
-            `${currentPlayer.getType()}'s ${ship.getName()} has been sunk!`
-          );
-        }
-      }
       if (opp.getBoard().allShipsSunk()) {
         endgame();
       } else {
@@ -128,7 +134,7 @@ const display = (function ScreenController() {
   }
 
   function endgame() {
-    alert(`${currentPlayer.getType()} has won!`);
+    alert(`${currentPlayer.getName()} has won!`);
   }
 
   newGame();

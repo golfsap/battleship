@@ -1,10 +1,10 @@
-import Ship from "./ship";
+import { createShips } from "./ship";
 import Gameboard from "./gameboard";
 
-export default function Player(type) {
-  const playerType = type;
+export default function Player(name) {
+  const playerName = name;
   const playerBoard = Gameboard();
-  const playerShips = [Ship(5), Ship(4), Ship(3), Ship(3), Ship(2)];
+  const playerShips = createShips();
 
   let availableSquares = Array.from({ length: 10 }, (_, row) =>
     Array.from({ length: 10 }, (_, col) => [row, col])
@@ -17,7 +17,7 @@ export default function Player(type) {
   };
 
   const attack = (opponent, row, col) => {
-    if (playerType === "computer") {
+    if (playerName === "computer") {
       [row, col] = generateRandomSquare();
     }
     return opponent.getBoard().receiveAttack(row, col);
@@ -33,17 +33,11 @@ export default function Player(type) {
   };
 
   const getSunkShips = () => {
-    const sunkShips = [];
-    for (const ship of playerShips) {
-      if (ship.isSunk()) {
-        sunkShips.push(ship);
-      }
-    }
-    return sunkShips;
+    return playerShips.filter((ship) => ship.isSunk());
   };
 
   return {
-    getType: () => playerType,
+    getName: () => playerName,
     getBoard: () => playerBoard,
     getShips: () => playerShips,
     attack,
