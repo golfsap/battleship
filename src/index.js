@@ -18,6 +18,7 @@ const display = (function ScreenController() {
 
     // Handle if computer's turn
     if (currentPlayer.getName() === "computer") {
+      board2Container.classList.add("dimmed");
       setTimeout(() => {
         const opp = currentPlayer === player1 ? player2 : player1;
         if (currentPlayer.attack(opp)) {
@@ -28,7 +29,8 @@ const display = (function ScreenController() {
             switchPlayer();
           }
         }
-      }, 1000);
+        board2Container.classList.remove("dimmed");
+      }, 600);
     }
   };
 
@@ -50,6 +52,8 @@ const display = (function ScreenController() {
     gameboard2.placeShip(player2Ships[2], [0, 7], "horizontal");
     gameboard2.placeShip(player2Ships[3], [9, 7], "horizontal");
     gameboard2.placeShip(player2Ships[4], [0, 0], "horizontal");
+
+    render();
   };
 
   function render() {
@@ -69,14 +73,14 @@ const display = (function ScreenController() {
     const board1 = player1.getBoard().getBoard();
     const board2 = player2.getBoard().getBoard();
 
-    board1Container.appendChild(renderBoard(board1));
-    board2Container.appendChild(renderBoard(board2));
+    board1Container.appendChild(renderBoard(board1, false));
+    board2Container.appendChild(renderBoard(board2, true));
 
     sunkShipsContainer.appendChild(renderSunkShips(player1));
     sunkShipsContainer.appendChild(renderSunkShips(player2));
   }
 
-  function renderBoard(board) {
+  function renderBoard(board, isComputerBoard = false) {
     const boardDiv = document.createElement("div");
     boardDiv.classList.add("board");
 
@@ -103,9 +107,12 @@ const display = (function ScreenController() {
           square.innerHTML = '<i class="fa-solid fa-x"></i>';
           square.classList.add("missed");
         }
-        square.dataset.row = row;
-        square.dataset.col = col;
-        square.addEventListener("click", (e) => playTurn(e));
+        // Add event listener only for computer's board
+        if (isComputerBoard) {
+          square.dataset.row = row;
+          square.dataset.col = col;
+          square.addEventListener("click", (e) => playTurn(e));
+        }
         boardDiv.appendChild(square);
       }
     }
@@ -143,9 +150,36 @@ const display = (function ScreenController() {
   }
 
   function endgame() {
-    alert(`${currentPlayer.getName()} has won!`);
+    const boards = document.querySelectorAll(".board");
+    boards.forEach((board) => board.classList.add("disabled"));
+    showEndgameModal(currentPlayer.getName());
+    // alert(`${currentPlayer.getName()} has won!`);
   }
 
+  function showEndgameModal(winner) {
+    const modal = document.getElementById("endgame-modal");
+    const message = document.getElementById("endgame-message");
+    message.textContent = `${winner} Wins!`;
+    modal.classList.remove("hidden");
+    document.getElementById("restart-btn").addEventListener("click", () => {
+      modal.classList.add("hidden");
+      restartGame();
+    });
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.add("hidden");
+      }
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        modal.classList.add("hidden");
+      }
+    });
+  }
+
+  function restartGame() {
+    newGame();
+  }
   newGame();
-  render();
+  // render();
 })();

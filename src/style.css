@@ -57,6 +57,12 @@ h1 {
   align-items: center;
 }
 
+.board-container.dimmed {
+  opacity: 0.5;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
+}
+
 .board {
   display: grid;
   grid-template-columns: repeat(10, 45px);
@@ -137,4 +143,56 @@ h1 {
   font-weight: 300;
   line-height: 1.5;
   /* color: var(--clr-light-purple); */
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background-color: var(--clr-purple);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+}
+
+.modal-content button {
+  margin: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: var(--clr-purple);
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  border: 2px solid var(--clr-white);
+  color: var(--clr-white);
+}
+
+.modal-content button:hover {
+  background-color: var(--clr-white);
+  color: var(--clr-purple);
+}
+
+.board.disabled {
+  pointer-events: none;
+  opacity: 0.5;
 }
