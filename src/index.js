@@ -85,13 +85,22 @@ const display = (function ScreenController() {
         const square = document.createElement("div");
         square.classList.add("square");
 
+        // Check if square contains a ship
         if (board[row][col].shipId) {
-          square.classList.add("ship");
-        }
-        if (board[row][col].isHit) {
-          square.classList.add("hit");
-        }
-        if (board[row][col].missed) {
+          const ship = board[row][col].shipId;
+          // square.classList.add("ship");
+
+          if (ship.isSunk()) {
+            square.innerHTML = '<i class="fa-solid fa-skull"></i>';
+            square.classList.add("sunk");
+          } else if (board[row][col].isHit) {
+            square.innerHTML = '<i class="fa-solid fa-bomb"></i>';
+            square.classList.add("hit");
+          } else {
+            square.classList.add("ship");
+          }
+        } else if (board[row][col].missed) {
+          square.innerHTML = '<i class="fa-solid fa-x"></i>';
           square.classList.add("missed");
         }
         square.dataset.row = row;
@@ -117,8 +126,8 @@ const display = (function ScreenController() {
   }
 
   function playTurn(e) {
-    const clickedRow = e.target.dataset.row;
-    const clickedCol = e.target.dataset.col;
+    const clickedRow = e.currentTarget.dataset.row;
+    const clickedCol = e.currentTarget.dataset.col;
     const opp = currentPlayer === player1 ? player2 : player1;
     console.log(
       `${currentPlayer.getName()} attacked: Row ${clickedRow} Col ${clickedCol}`
