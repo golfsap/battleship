@@ -1,2 +1,3 @@
-# Template
-A github template for webpack, eslint and prettier.
+# Battleship
+
+Classic battleship game implementation using test-driven development.
