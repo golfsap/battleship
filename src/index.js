@@ -178,6 +178,10 @@ const display = (function ScreenController() {
   }
 
   function restartGame() {
+    player1.resetGame();
+    player2.resetGame();
+    currentPlayer = player1;
+
     newGame();
   }
   newGame();

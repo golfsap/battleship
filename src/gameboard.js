@@ -1,6 +1,6 @@
 export default function Gameboard() {
   // Create a 10x10 game board
-  const board = Array.from({ length: 10 }, () =>
+  let board = Array.from({ length: 10 }, () =>
     Array(10)
       .fill(null)
       .map(() => ({ shipId: null, isHit: false, missed: false }))
@@ -68,10 +68,19 @@ export default function Gameboard() {
       .every((square) => square.isHit);
   };
 
+  const resetBoard = () => {
+    board = Array.from({ length: 10 }, () =>
+      Array(10)
+        .fill(null)
+        .map(() => ({ shipId: null, isHit: false, missed: false }))
+    );
+  };
+
   return {
     getBoard,
     placeShip,
     receiveAttack,
     allShipsSunk,
+    resetBoard,
   };
 }

@@ -36,11 +36,22 @@ export default function Player(name) {
     return playerShips.filter((ship) => ship.isSunk());
   };
 
+  const resetShips = () => {
+    playerShips.forEach((ship) => ship.reset());
+    playerBoard.resetBoard();
+  };
+
+  const resetGame = () => {
+    resetShips();
+    resetAvailableSquares();
+  };
+
   return {
     getName: () => playerName,
     getBoard: () => playerBoard,
     getShips: () => playerShips,
     attack,
     getSunkShips,
+    resetGame,
   };
 }

@@ -1,5 +1,5 @@
 export default function Ship(len, name) {
-  let length = len;
+  const length = len;
   let hits = 0;
   let sunk = false;
 
@@ -16,12 +16,18 @@ export default function Ship(len, name) {
 
   const isSunk = () => sunk;
 
+  const reset = () => {
+    hits = 0;
+    sunk = false;
+  };
+
   return {
     getName: () => name,
     getLength: () => length,
     getHits: () => hits,
     isSunk,
     hit,
+    reset,
   };
 }
 
