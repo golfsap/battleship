@@ -255,6 +255,7 @@ const display = (function ScreenController() {
       label.classList.add("error");
       label.classList.remove("success");
     }
+    render();
   }
 
   // Add event listeners for all ships
@@ -289,6 +290,7 @@ const display = (function ScreenController() {
       label.classList.remove("error");
       label.classList.add("success");
     });
+    render();
   }
 
   function createPlaceShipsRandomHandler(player) {
