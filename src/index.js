@@ -45,6 +45,9 @@ const display = (function ScreenController() {
     setupShipPlacementValidation(player1Ships);
 
     // TODO: place random button
+    const placeRandomBtn = document
+      .getElementById("place-random-btn")
+      .addEventListener("click", createPlaceShipsRandomHandler(player1));
 
     // Place ships for player2
     const gameboard2 = player2.getBoard();
@@ -59,6 +62,7 @@ const display = (function ScreenController() {
       .getElementById("start-game-btn")
       .addEventListener("click", startGame);
     render();
+    // TODO: disable event listeners on computer board
   };
 
   function startGame() {
@@ -170,7 +174,6 @@ const display = (function ScreenController() {
     const boards = document.querySelectorAll(".board");
     boards.forEach((board) => board.classList.add("disabled"));
     showEndgameModal(currentPlayer.getName());
-    // alert(`${currentPlayer.getName()} has won!`);
   }
 
   function showEndgameModal(winner) {
@@ -183,7 +186,6 @@ const display = (function ScreenController() {
       restartGame();
     });
 
-    // TODO: how will user restart the game if they click outside the modal?
     modal.addEventListener("click", (e) => {
       if (e.target === modal) {
         modal.classList.add("hidden");
@@ -203,7 +205,6 @@ const display = (function ScreenController() {
 
     cleanUpEventListeners();
     resetInputForm();
-    // TODO: the previous ships placement still in input, erase or placeship on start button clicked?
 
     newGame();
   }
@@ -270,6 +271,28 @@ const display = (function ScreenController() {
       colInput.addEventListener("input", validate);
       dirInput.addEventListener("change", validate);
     });
+  }
+
+  function handlePlaceShipsRandom(player) {
+    // clear board before every random placements
+    player.resetShips();
+    const randomPlacements = player.placeShipsRandomly();
+
+    // update form for user to see
+    randomPlacements.forEach(({ shipName, row, col, dir }) => {
+      document.getElementById(`${shipName}-row`).value = row;
+      document.getElementById(`${shipName}-col`).value = col;
+      document.getElementById(`${shipName}-direction`).value = dir;
+
+      // add valid class to all the labels
+      const label = document.querySelector(`label[for="${shipName}-row"]`);
+      label.classList.remove("error");
+      label.classList.add("success");
+    });
+  }
+
+  function createPlaceShipsRandomHandler(player) {
+    return () => handlePlaceShipsRandom(player);
   }
 
   function resetInputForm() {

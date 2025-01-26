@@ -55,13 +55,43 @@ export default function Player(name) {
     );
   };
 
+  const placeShipsRandomly = () => {
+    const directions = ["horizontal", "vertical"];
+    const placements = [];
+
+    playerShips.forEach((ship) => {
+      let placed = false;
+
+      while (!placed) {
+        const row = Math.floor(Math.random() * 10);
+        const col = Math.floor(Math.random() * 10);
+        const dir = directions[Math.floor(Math.random() * directions.length)];
+
+        if (playerBoard.canPlaceShip(ship, [row, col], dir)) {
+          playerBoard.placeShip(ship, [row, col], dir);
+          placed = true;
+
+          placements.push({
+            shipName: ship.getName(),
+            row,
+            col,
+            dir,
+          });
+        }
+      }
+    });
+    return placements;
+  };
+
   return {
     getName: () => playerName,
     getBoard: () => playerBoard,
     getShips: () => playerShips,
     attack,
     getSunkShips,
+    resetShips,
     resetGame,
     allShipsPlaced,
+    placeShipsRandomly,
   };
 }
