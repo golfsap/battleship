@@ -36,6 +36,9 @@ const display = (function ScreenController() {
 
   const newGame = () => {
     document.getElementById("place-ships-modal").style.display = "block";
+    document
+      .getElementById("reset-game-btn")
+      .addEventListener("click", restartGame);
 
     // Place ships for player1
     const player1Ships = player1.getShips();
@@ -198,6 +201,8 @@ const display = (function ScreenController() {
     player2.resetGame();
     currentPlayer = player1;
 
+    cleanUpEventListeners();
+    resetInputForm();
     // TODO: the previous ships placement still in input, erase or placeship on start button clicked?
 
     newGame();
@@ -264,6 +269,46 @@ const display = (function ScreenController() {
       rowInput.addEventListener("input", validate);
       colInput.addEventListener("input", validate);
       dirInput.addEventListener("change", validate);
+    });
+  }
+
+  function resetInputForm() {
+    const inputs = document.querySelectorAll("input");
+    inputs.forEach((input) => {
+      input.value = "";
+    });
+    const labels = document.querySelectorAll("label");
+    labels.forEach((label) => {
+      label.classList.remove("success");
+      label.classList.remove("error");
+    });
+  }
+
+  function cleanUpEventListeners() {
+    const resetBtn = document.getElementById("reset-game-btn");
+    if (resetBtn.listener) {
+      resetBtn.removeEventListener("click", resetBtn.listener);
+      delete resetBtn.listener;
+    }
+
+    const player1Ships = player1.getShips();
+    player1Ships.forEach((ship) => {
+      const rowInput = document.getElementById(`${ship.getName()}-row`);
+      const colInput = document.getElementById(`${ship.getName()}-col`);
+      const dirInput = document.getElementById(`${ship.getName()}-direction`);
+
+      if (rowInput.listener) {
+        rowInput.removeEventListener("input", rowInput.listener);
+        delete rowInput.listener;
+      }
+      if (colInput.listener) {
+        colInput.removeEventListener("input", colInput.listener);
+        delete colInput.listener;
+      }
+      if (dirInput.listener) {
+        dirInput.removeEventListener("change", dirInput.listener);
+        delete dirInput.listener;
+      }
     });
   }
 

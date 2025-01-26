@@ -10,10 +10,13 @@
     ></script>
   </head>
   <body>
-    <h1>
-      Battleship
-      <i class="fa-solid fa-ship"></i>
-    </h1>
+    <div class="header">
+      <h1>
+        Battleship
+        <i class="fa-solid fa-ship"></i>
+      </h1>
+      <button id="reset-game-btn">Reset Game</button>
+    </div>
     <div id="current-player"></div>
     <div id="boards">
       <div id="board-1-container" class="board-container"></div>
@@ -29,8 +32,8 @@
     <div id="place-ships-modal" class="">
       <h2>Place Your Ships</h2>
       <div id="row-col-label">
-        <p>Row</p>
-        <p>Col</p>
+        <p>Row (0-9)</p>
+        <p>Col (0-9)</p>
       </div>
       <form id="place-ships-form">
         <div class="ship-placement">

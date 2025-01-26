@@ -11,6 +11,9 @@ export default function Gameboard() {
   const canPlaceShip = (ship, head, direction) => {
     const shipLength = ship.getLength();
     console.log("Head coords:", head[0], head[1]);
+    if (head[0] < 0 || head[1] < 0 || head[0] > 9 || head[1] > 9) {
+      return false;
+    }
     if (direction === "horizontal") {
       if (head[1] + shipLength > 10) return false;
 
