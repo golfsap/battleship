@@ -35,14 +35,13 @@ const display = (function ScreenController() {
   };
 
   const newGame = () => {
+    document.getElementById("place-ships-modal").style.display = "block";
+
     // Place ships for player1
-    const gameboard1 = player1.getBoard();
     const player1Ships = player1.getShips();
-    gameboard1.placeShip(player1Ships[0], [0, 0], "horizontal");
-    gameboard1.placeShip(player1Ships[1], [6, 9], "vertical");
-    gameboard1.placeShip(player1Ships[2], [2, 2], "horizontal");
-    gameboard1.placeShip(player1Ships[3], [6, 3], "vertical");
-    gameboard1.placeShip(player1Ships[4], [4, 7], "vertical");
+    setupShipPlacementValidation(player1Ships);
+
+    // TODO: place random button
 
     // Place ships for player2
     const gameboard2 = player2.getBoard();
@@ -53,8 +52,23 @@ const display = (function ScreenController() {
     gameboard2.placeShip(player2Ships[3], [9, 7], "horizontal");
     gameboard2.placeShip(player2Ships[4], [0, 0], "horizontal");
 
+    document
+      .getElementById("start-game-btn")
+      .addEventListener("click", startGame);
     render();
   };
+
+  function startGame() {
+    // Check if all ships are placed
+    if (!player1.allShipsPlaced()) {
+      alert("Please place all ships before starting the game.");
+      return;
+    }
+
+    document.getElementById("place-ships-modal").style.display = "none";
+    console.log("Game started!");
+    render();
+  }
 
   function render() {
     board1Container.innerHTML = "";
@@ -165,6 +179,8 @@ const display = (function ScreenController() {
       modal.classList.add("hidden");
       restartGame();
     });
+
+    // TODO: how will user restart the game if they click outside the modal?
     modal.addEventListener("click", (e) => {
       if (e.target === modal) {
         modal.classList.add("hidden");
@@ -182,8 +198,74 @@ const display = (function ScreenController() {
     player2.resetGame();
     currentPlayer = player1;
 
+    // TODO: the previous ships placement still in input, erase or placeship on start button clicked?
+
     newGame();
   }
+
+  function handlePlaceShips(shipId) {
+    const rowInput = document.getElementById(`${shipId}-row`);
+    const colInput = document.getElementById(`${shipId}-col`);
+    const dirInput = document.getElementById(`${shipId}-direction`);
+    const label = document.querySelector(`label[for="${shipId}-row"]`);
+
+    const row = parseInt(rowInput.value, 10);
+    const col = parseInt(colInput.value, 10);
+    const dir = dirInput.value;
+
+    // validate input
+    if (isNaN(row) || isNaN(col)) {
+      label.classList.add("error");
+      label.classList.remove("success");
+      return;
+    }
+
+    const gameboard1 = player1.getBoard();
+    const player1Ships = player1.getShips();
+
+    const shipIndex = player1Ships.findIndex(
+      (ship) => ship.getName() === shipId
+    );
+    if (shipIndex === -1) return;
+
+    // Remove the ship before re-validating
+    gameboard1.removeShip(player1Ships[shipIndex]);
+
+    // validate placement
+    const isValid = gameboard1.canPlaceShip(
+      player1Ships[shipIndex],
+      [row, col],
+      dir
+    );
+
+    console.log(player1Ships[shipIndex].getName(), "is valid:", isValid);
+    // apply class based on validity
+    if (isValid) {
+      label.classList.add("success");
+      label.classList.remove("error");
+      // temporarily place the ships
+      gameboard1.placeShip(player1Ships[shipIndex], [row, col], dir);
+    } else {
+      label.classList.add("error");
+      label.classList.remove("success");
+    }
+  }
+
+  // Add event listeners for all ships
+  function setupShipPlacementValidation(ships) {
+    ships.forEach((ship) => {
+      const rowInput = document.getElementById(`${ship.getName()}-row`);
+      const colInput = document.getElementById(`${ship.getName()}-col`);
+      const dirInput = document.getElementById(`${ship.getName()}-direction`);
+
+      const validate = () => handlePlaceShips(ship.getName());
+
+      // Attach event listeners for each input
+      rowInput.addEventListener("input", validate);
+      colInput.addEventListener("input", validate);
+      dirInput.addEventListener("change", validate);
+    });
+  }
+
   newGame();
-  // render();
 })();

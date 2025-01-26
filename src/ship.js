@@ -32,11 +32,11 @@ export default function Ship(len, name) {
 }
 
 export const predefinedShips = [
-  { length: 5, name: "Carrier" },
-  { length: 4, name: "Battleship" },
-  { length: 3, name: "Cruiser" },
-  { length: 3, name: "Submarine" },
-  { length: 2, name: "Destroyer" },
+  { length: 5, name: "carrier" },
+  { length: 4, name: "battleship" },
+  { length: 3, name: "cruiser" },
+  { length: 3, name: "submarine" },
+  { length: 2, name: "destroyer" },
 ];
 
 export function createShips() {

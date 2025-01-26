@@ -196,3 +196,62 @@ h1 {
   pointer-events: none;
   opacity: 0.5;
 }
+
+#place-ships-modal {
+  position: fixed;
+  top: 200px;
+  left: 55%;
+  height: 300px;
+  /* width: 40%; */
+  border: 2px solid red;
+  background-color: var(--clr-light-purple);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* opacity: 0.9; */
+}
+
+#place-ships-modal form {
+  /* padding-top: 20px; */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid green;
+  height: 100%;
+  align-items: center;
+}
+
+.ship-placement {
+  border: 1px solid black;
+  display: grid;
+  padding: 0 10px;
+  grid-template-columns: 120px 50px 50px 100px;
+  gap: 10px;
+  align-items: center;
+}
+
+#place-ships-modal input {
+  width: 40px;
+  height: 30px;
+  /* outline: none; */
+}
+
+#place-ships-modal button {
+  margin-top: 10px;
+  /* margin: 10px 20px; */
+  width: 50%;
+}
+
+#row-col-label {
+  display: flex;
+  gap: 30px;
+  color: var(--clr-dark-purple);
+}
+
+label.success {
+  border: 2px solid green;
+}
+
+label.error {
+  border: 2px solid red;
+}

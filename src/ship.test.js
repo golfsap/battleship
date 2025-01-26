@@ -32,3 +32,10 @@ test("name of ship", () => {
   expect(playerShips[3].getName()).toBe("Submarine");
   expect(playerShips[4].getName()).toBe("Destroyer");
 });
+
+test("reset ship", () => {
+  expect(playerShips[0].isSunk()).toBe(true);
+  playerShips[0].reset();
+  expect(playerShips[0].getHits()).toBe(0);
+  expect(playerShips[0].isSunk()).toBe(false);
+});

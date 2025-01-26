@@ -26,5 +26,122 @@
         <button id="restart-btn">Restart Game</button>
       </div>
     </div>
+    <div id="place-ships-modal" class="">
+      <h2>Place Your Ships</h2>
+      <div id="row-col-label">
+        <p>Row</p>
+        <p>Col</p>
+      </div>
+      <form id="place-ships-form">
+        <div class="ship-placement">
+          <label for="carrier-row">Carrier (5):</label>
+          <input
+            type="number"
+            id="carrier-row"
+            placeholder=""
+            min="0"
+            max="9"
+          />
+          <input
+            type="number"
+            id="carrier-col"
+            placeholder=""
+            min="0"
+            max="9"
+          />
+          <select id="carrier-direction">
+            <option value="horizontal">Horizontal</option>
+            <option value="vertical">Vertical</option>
+          </select>
+        </div>
+        <div class="ship-placement">
+          <label for="battleship-row">Battleship (4):</label>
+          <input
+            type="number"
+            id="battleship-row"
+            placeholder="Row"
+            min="0"
+            max="9"
+          />
+          <input
+            type="number"
+            id="battleship-col"
+            placeholder="Col"
+            min="0"
+            max="9"
+          />
+          <select id="battleship-direction">
+            <option value="horizontal">Horizontal</option>
+            <option value="vertical">Vertical</option>
+          </select>
+        </div>
+        <div class="ship-placement">
+          <label for="cruiser-row">Cruiser (3):</label>
+          <input
+            type="number"
+            id="cruiser-row"
+            placeholder="Row"
+            min="0"
+            max="9"
+          />
+          <input
+            type="number"
+            id="cruiser-col"
+            placeholder="Col"
+            min="0"
+            max="9"
+          />
+          <select id="cruiser-direction">
+            <option value="horizontal">Horizontal</option>
+            <option value="vertical">Vertical</option>
+          </select>
+        </div>
+        <div class="ship-placement">
+          <label for="submarine-row">Submarine (3):</label>
+          <input
+            type="number"
+            id="submarine-row"
+            placeholder="Row"
+            min="0"
+            max="9"
+          />
+          <input
+            type="number"
+            id="submarine-col"
+            placeholder="Col"
+            min="0"
+            max="9"
+          />
+          <select id="submarine-direction">
+            <option value="horizontal">Horizontal</option>
+            <option value="vertical">Vertical</option>
+          </select>
+        </div>
+        <div class="ship-placement">
+          <label for="destroyer-row">Destroyer (2):</label>
+          <input
+            type="number"
+            id="destroyer-row"
+            placeholder="Row"
+            min="0"
+            max="9"
+          />
+          <input
+            type="number"
+            id="destroyer-col"
+            placeholder="Col"
+            min="0"
+            max="9"
+          />
+          <select id="destroyer-direction">
+            <option value="horizontal">Horizontal</option>
+            <option value="vertical">Vertical</option>
+          </select>
+        </div>
+        <!-- Repeat for other ships -->
+        <button type="button" id="start-game-btn">Start Game</button>
+        <button type="button" id="place-random-btn">Place Random</button>
+      </form>
+    </div>
   </body>
 </html>

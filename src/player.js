@@ -46,6 +46,15 @@ export default function Player(name) {
     resetAvailableSquares();
   };
 
+  const allShipsPlaced = () => {
+    return playerShips.every((ship) =>
+      playerBoard
+        .getBoard()
+        .flat()
+        .some((cell) => cell.shipId === ship)
+    );
+  };
+
   return {
     getName: () => playerName,
     getBoard: () => playerBoard,
@@ -53,5 +62,6 @@ export default function Player(name) {
     attack,
     getSunkShips,
     resetGame,
+    allShipsPlaced,
   };
 }

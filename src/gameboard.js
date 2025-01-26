@@ -10,7 +10,7 @@ export default function Gameboard() {
 
   const canPlaceShip = (ship, head, direction) => {
     const shipLength = ship.getLength();
-
+    console.log("Head coords:", head[0], head[1]);
     if (direction === "horizontal") {
       if (head[1] + shipLength > 10) return false;
 
@@ -41,6 +41,14 @@ export default function Gameboard() {
       }
     }
     return true;
+  };
+
+  const removeShip = (ship) => {
+    board = board.map((row) =>
+      row.map((cell) =>
+        cell.shipId === ship ? { ...cell, shipId: null } : cell
+      )
+    );
   };
 
   const receiveAttack = (row, col) => {
@@ -78,7 +86,9 @@ export default function Gameboard() {
 
   return {
     getBoard,
+    canPlaceShip,
     placeShip,
+    removeShip,
     receiveAttack,
     allShipsSunk,
     resetBoard,
