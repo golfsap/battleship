@@ -43,23 +43,17 @@ const display = (function ScreenController() {
     document
       .getElementById("place-random-btn")
       .addEventListener("click", createPlaceShipsRandomHandler(player1));
+    document
+      .getElementById("start-game-btn")
+      .addEventListener("click", startGame);
 
     // Place ships for player1
     const player1Ships = player1.getShips();
     setupShipPlacementValidation(player1Ships);
 
     // Place ships for player2
-    const gameboard2 = player2.getBoard();
-    const player2Ships = player2.getShips();
-    gameboard2.placeShip(player2Ships[0], [4, 3], "vertical");
-    gameboard2.placeShip(player2Ships[1], [5, 5], "vertical");
-    gameboard2.placeShip(player2Ships[2], [0, 7], "horizontal");
-    gameboard2.placeShip(player2Ships[3], [9, 7], "horizontal");
-    gameboard2.placeShip(player2Ships[4], [0, 0], "horizontal");
+    player2.placeShipsRandomly();
 
-    document
-      .getElementById("start-game-btn")
-      .addEventListener("click", startGame);
     render();
     // TODO: disable event listeners on computer board
   };
