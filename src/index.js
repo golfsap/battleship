@@ -7,6 +7,7 @@ const display = (function ScreenController() {
   const currentPlayerDisplay = document.getElementById("current-player");
   const sunkShipsContainer = document.getElementById("sunken-ships-container");
 
+  let gameStarted = false;
   const player1 = Player("player");
   const player2 = Player("computer");
 
@@ -39,15 +40,13 @@ const display = (function ScreenController() {
     document
       .getElementById("reset-game-btn")
       .addEventListener("click", restartGame);
+    document
+      .getElementById("place-random-btn")
+      .addEventListener("click", createPlaceShipsRandomHandler(player1));
 
     // Place ships for player1
     const player1Ships = player1.getShips();
     setupShipPlacementValidation(player1Ships);
-
-    // TODO: place random button
-    const placeRandomBtn = document
-      .getElementById("place-random-btn")
-      .addEventListener("click", createPlaceShipsRandomHandler(player1));
 
     // Place ships for player2
     const gameboard2 = player2.getBoard();
@@ -68,10 +67,12 @@ const display = (function ScreenController() {
   function startGame() {
     // Check if all ships are placed
     if (!player1.allShipsPlaced()) {
-      alert("Please place all ships before starting the game.");
+      alert(
+        "Please place all ships in valid positions before starting the game."
+      );
       return;
     }
-
+    gameStarted = true;
     document.getElementById("place-ships-modal").style.display = "none";
     console.log("Game started!");
     render();
@@ -113,7 +114,6 @@ const display = (function ScreenController() {
         // Check if square contains a ship
         if (board[row][col].shipId) {
           const ship = board[row][col].shipId;
-          // square.classList.add("ship");
 
           if (ship.isSunk()) {
             square.innerHTML = '<i class="fa-solid fa-skull"></i>';
@@ -129,7 +129,9 @@ const display = (function ScreenController() {
           square.classList.add("missed");
         }
         // Add event listener only for computer's board
-        if (isComputerBoard) {
+        if (isComputerBoard && gameStarted) {
+          // enable hover styling
+          square.classList.add("active");
           square.dataset.row = row;
           square.dataset.col = col;
           square.addEventListener("click", (e) => playTurn(e));
@@ -171,6 +173,7 @@ const display = (function ScreenController() {
   }
 
   function endgame() {
+    gameStarted = false;
     const boards = document.querySelectorAll(".board");
     boards.forEach((board) => board.classList.add("disabled"));
     showEndgameModal(currentPlayer.getName());
@@ -258,7 +261,7 @@ const display = (function ScreenController() {
     render();
   }
 
-  // Add event listeners for all ships
+  // Add event listeners for all ship inputs
   function setupShipPlacementValidation(ships) {
     ships.forEach((ship) => {
       const rowInput = document.getElementById(`${ship.getName()}-row`);
@@ -267,7 +270,6 @@ const display = (function ScreenController() {
 
       const validate = () => handlePlaceShips(ship.getName());
 
-      // Attach event listeners for each input
       rowInput.addEventListener("input", validate);
       colInput.addEventListener("input", validate);
       dirInput.addEventListener("change", validate);
@@ -314,6 +316,18 @@ const display = (function ScreenController() {
     if (resetBtn.listener) {
       resetBtn.removeEventListener("click", resetBtn.listener);
       delete resetBtn.listener;
+    }
+
+    const placeRandomBtn = document.getElementById("place-random-btn");
+    if (placeRandomBtn.listener) {
+      placeRandomBtn.removeEventListener("click", placeRandomBtn.listener);
+      delete placeRandomBtn.listener;
+    }
+
+    const startGameBtn = document.getElementById("start-game-btn");
+    if (startGameBtn.listener) {
+      startGameBtn.removeEventListener("click", startGameBtn.listener);
+      delete startGameBtn.listener;
     }
 
     const player1Ships = player1.getShips();

@@ -86,7 +86,7 @@ h1 {
   background-color: var(--clr-purple);
 } */
 
-#board-2-container .square:hover {
+#board-2-container .square.active:hover {
   background-color: var(--clr-purple);
 }
 /* 
