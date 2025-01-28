@@ -56,7 +56,7 @@ h1 {
 }
 
 .board-container {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -82,21 +82,9 @@ h1 {
   background-color: transparent;
 }
 
-/* #board-2-container .ship:hover {
-  background-color: var(--clr-purple);
-} */
-
 #board-2-container .square.active:hover {
   background-color: var(--clr-purple);
 }
-/* 
-#board-2-container .ship.sunk {
-  background-color: red;
-}
-
-#board-2-container .ship.hit {
-  background-color: pink;
-} */
 
 .square {
   border: 1px solid var(--clr-purple);
@@ -104,10 +92,6 @@ h1 {
   align-items: center;
   justify-content: center;
 }
-
-/* .square:hover {
-  background-color: var(--clr-purple);
-} */
 
 .square i {
   font-size: 20px;
@@ -127,12 +111,11 @@ h1 {
 }
 
 .missed {
-  /* background-color: var(--clr-purple); */
   color: var(--clr-purple);
 }
 
 #sunken-ships-container {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   display: grid;
   grid-template-columns: 500px 500px;
   gap: 30px;
@@ -143,7 +126,7 @@ h1 {
   /* padding: 10px; */
   text-align: center;
   /* text-transform: capitalize; */
-  border: 1px solid green;
+  /* border: 1px solid green; */
   letter-spacing: 1px;
   font-size: 16px;
   font-weight: 300;
@@ -208,12 +191,12 @@ h1 {
   top: 200px;
   left: 55%;
   height: 300px;
-  /* width: 40%; */
-  border: 2px solid red;
+  /* border: 2px solid white; */
   background-color: var(--clr-light-purple);
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   /* opacity: 0.9; */
 }
 
@@ -222,13 +205,13 @@ h1 {
   display: flex;
   flex-direction: column;
   width: 100%;
-  border: 1px solid green;
+  /* border: 1px solid green; */
   /* height: 100%; */
   align-items: center;
 }
 
 .ship-placement {
-  border: 1px solid black;
+  /* border: 1px solid black; */
   display: grid;
   padding: 0 10px;
   grid-template-columns: 120px 50px 50px 100px;
@@ -237,6 +220,7 @@ h1 {
 }
 
 #place-ships-modal h2 {
+  margin-top: 10px;
   text-align: center;
 }
 
@@ -256,7 +240,12 @@ h1 {
   display: flex;
   justify-content: center;
   gap: 11px;
+  margin-bottom: 5px;
   color: var(--clr-dark-purple);
+}
+
+label {
+  padding: 2px;
 }
 
 label.success {
@@ -265,4 +254,17 @@ label.success {
 
 label.error {
   border: 2px solid red;
+}
+
+button {
+  padding: 5px;
+  font-size: 14px;
+  border: none;
+  background-color: var(--clr-white);
+  color: var(--clr-dark-purple);
+}
+
+button:hover {
+  background-color: var(--clr-grey);
+  color: var(--clr-white);
 }

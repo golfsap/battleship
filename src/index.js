@@ -37,9 +37,10 @@ const display = (function ScreenController() {
 
   const newGame = () => {
     document.getElementById("place-ships-modal").style.display = "block";
-    document
-      .getElementById("reset-game-btn")
-      .addEventListener("click", restartGame);
+    document.getElementById("reset-game-btn").addEventListener("click", () => {
+      gameStarted = false;
+      restartGame();
+    });
     document
       .getElementById("place-random-btn")
       .addEventListener("click", createPlaceShipsRandomHandler(player1));
@@ -55,7 +56,6 @@ const display = (function ScreenController() {
     player2.placeShipsRandomly();
 
     render();
-    // TODO: disable event listeners on computer board
   };
 
   function startGame() {
