@@ -26,11 +26,11 @@ test("hits count of ship", () => {
 });
 
 test("name of ship", () => {
-  expect(playerShips[0].getName()).toBe("Carrier");
-  expect(playerShips[1].getName()).toBe("Battleship");
-  expect(playerShips[2].getName()).toBe("Cruiser");
-  expect(playerShips[3].getName()).toBe("Submarine");
-  expect(playerShips[4].getName()).toBe("Destroyer");
+  expect(playerShips[0].getName()).toBe("carrier");
+  expect(playerShips[1].getName()).toBe("battleship");
+  expect(playerShips[2].getName()).toBe("cruiser");
+  expect(playerShips[3].getName()).toBe("submarine");
+  expect(playerShips[4].getName()).toBe("destroyer");
 });
 
 test("reset ship", () => {

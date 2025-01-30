@@ -10,7 +10,7 @@ export default function Gameboard() {
 
   const canPlaceShip = (ship, head, direction) => {
     const shipLength = ship.getLength();
-    console.log("Head coords:", head[0], head[1]);
+    // console.log("Head coords:", head[0], head[1]);
     if (head[0] < 0 || head[1] < 0 || head[0] > 9 || head[1] > 9) {
       return false;
     }
@@ -63,10 +63,12 @@ export default function Gameboard() {
     if (attackedSquare.shipId) {
       attackedSquare.isHit = true;
       attackedSquare.shipId.hit();
+      return { hit: true, shipId: attackedSquare.shipId };
     } else {
       attackedSquare.missed = true;
+      return { hit: false };
     }
-    return true;
+    // return true;
   };
 
   const isValidCoordinate = (row, col) =>

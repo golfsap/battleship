@@ -1,5 +1,6 @@
 import "./style.css";
 import Player from "./player";
+import Computer from "./computer-ai";
 
 const display = (function ScreenController() {
   const board1Container = document.getElementById("board-1-container");
@@ -9,7 +10,8 @@ const display = (function ScreenController() {
 
   let gameStarted = false;
   const player1 = Player("player");
-  const player2 = Player("computer");
+  const player2 = Computer();
+  // const player2 = Player("computer");
 
   let currentPlayer = player1;
 
